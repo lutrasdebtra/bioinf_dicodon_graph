@@ -4,7 +4,17 @@ class SequencesController < ApplicationController
   # GET /sequences
   # GET /sequences.json
   def index
-    @sequences = Sequence.all
+    @dicodons = []
+    @values = []
+    if params[:search]
+      if (params[:search] =~ /\A[ATCGatcg\W]+\z/ ? true : false)
+          params[:search] = params[:search].gsub(/\W/, "").downcase
+          @dicodons = Sequence.dicodons(params[:search])
+          @values = Sequence.get_values(@dicodons)
+      else
+        flash.now[:alert] = 'Incorrect search parameters - Seek help'
+      end
+    end
   end
 
   # GET /sequences/1
@@ -69,6 +79,6 @@ class SequencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sequence_params
-      params.require(:sequence).permit(:seq)
+      params.require(:sequence).permit(:seq, amnioacid_files_attributes:[:id, :name, dicodon_files_attributes:[:id, :name, :freq, :aminoacid_id]])
     end
 end

@@ -1,14 +1,25 @@
+<% if alert %>
+  <p class="bg-danger col-md-6 col-md-offset-3"><%= alert %></p>
+<% end %>
 <!DOCTYPE html>
-<html>
 <head>
-  <title>BioinfDicodonGraph</title>
+  <title>Dicodon Graph</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   <%= csrf_meta_tags %>
 </head>
+<br />
 <body>
-
-<%= yield %>
-
+  <!-- When submit the form, the view rendered will be the index view of our articles resource -->
+  <%= form_tag(sequences_path, :method => "post", class: "form-group col-md-6 col-md-offset-3", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], class: "form-control input-lg", placeholder: "Search Sequence" %>
+    <br >
+    <%= submit_tag "Search", class: "btn btn-success btn-lg btn-block" %>
+  <% end %>
+  <div class = "row">
+    <div class = "form-group col-md-6 col-md-offset-3">
+      <%= yield %>
+    </div>
+  </div>
 </body>
-</html>

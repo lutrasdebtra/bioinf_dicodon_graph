@@ -13,4 +13,12 @@ class Sequence < ActiveRecord::Base
 		end
 		return seq_a
 	end
+
+	def self.get_values(dicodons)
+		values = []
+		dicodons.each do |d|
+			values << Dicodon.find_by_name(d).freq
+		end
+		return values
+	end
 end

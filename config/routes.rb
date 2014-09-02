@@ -1,4 +1,7 @@
 BioinfDicodonGraph::Application.routes.draw do
+  match '/sequences',  to: "sequences#index", via: :post
+  root "sequences#index"
+
   resources :sequences
 
   # The priority is based upon order of creation: first created -> highest priority.

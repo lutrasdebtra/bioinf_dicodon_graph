@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  aminoAcid_id: 1
+  aminoacid_id: 1
   freq: 9.99
 
 two:
   name: MyString
-  aminoAcid_id: 1
+  aminoacid_id: 1
   freq: 9.99
