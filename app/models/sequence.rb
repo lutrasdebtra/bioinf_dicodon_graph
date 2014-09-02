@@ -21,4 +21,19 @@ class Sequence < ActiveRecord::Base
 		end
 		return values
 	end
+
+	def self.get_graphs(dicodons, values)
+		graphs = []
+		dicodons = dicodons.each_slice(60).to_a
+		values = values.each_slice(60).to_a
+		dicodons.each_with_index do |d, i| 
+			graph = []
+			d.each_with_index do |di, j|
+				graph << [di + "_#{j}", values[i][j].to_f]
+			end
+			graphs << graph
+		end
+		print graphs
+		return graphs
+	end
 end

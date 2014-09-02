@@ -1,3 +1,6 @@
-<% if @values.any? %>
-  <%= pie_chart @values %>
+<% if @graphs.any? %>
+  <% @graphs.each do |g| %>
+    <%= column_chart  g, discrete: true, min: 0.0, max: 1.1, 
+    library: {hAxis: {textStyle: {color: 'black', fontName: 'Arial', fontSize: 10}}} %>
+  <% end %>
 <% end %>

@@ -6,11 +6,13 @@ class SequencesController < ApplicationController
   def index
     @dicodons = []
     @values = []
+    @graphs = []
     if params[:search]
       if (params[:search] =~ /\A[ATCGatcg\W]+\z/ ? true : false)
           params[:search] = params[:search].gsub(/\W/, "").downcase
           @dicodons = Sequence.dicodons(params[:search])
           @values = Sequence.get_values(@dicodons)
+          @graphs = Sequence.get_graphs(@dicodons, @values)
       else
         flash.now[:alert] = 'Incorrect search parameters - Seek help'
       end
