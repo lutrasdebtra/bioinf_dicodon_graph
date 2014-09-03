@@ -22,6 +22,26 @@ class Sequence < ActiveRecord::Base
 		return values
 	end
 
+	def self.get_colours(dicodons)
+		values = []
+		dicodons.each do |d|
+			freq = Dicodon.find_by_name(d).freq
+			case 
+			when freq < 0.1
+				values << "#d9534f"
+			when freq < 0.4
+				values << "#f0ad4e"
+			when freq < 0.7 
+				values << "#5bc0de"
+			when freq < 1.0
+				values << '#428bca' 
+			else
+				values << '#5cb85c'
+			end
+		end
+		return values
+	end
+
 	def self.get_graphs(dicodons, values)
 		graphs = []
 		dicodons = dicodons.each_slice(60).to_a
@@ -29,11 +49,10 @@ class Sequence < ActiveRecord::Base
 		dicodons.each_with_index do |d, i| 
 			graph = []
 			d.each_with_index do |di, j|
-				graph << [di + "_#{j}", values[i][j].to_f]
+				graph << [di + "_#{j+1}", values[i][j].to_f]
 			end
 			graphs << graph
 		end
-		print graphs
 		return graphs
 	end
 end

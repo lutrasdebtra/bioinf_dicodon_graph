@@ -1,6 +1,9 @@
 <% if @graphs.any? %>
-  <% @graphs.each do |g| %>
-    <%= column_chart  g, discrete: true, min: 0.0, max: 1.1, 
-    library: {hAxis: {textStyle: {color: 'black', fontName: 'Arial', fontSize: 10}}} %>
+  <% @graphs.each_with_index do |g, i| %>
+    <%= column_chart  g ,min: 0.0, max: 1.1,
+    library: {hAxis: {title: @sequence_slice[i], textStyle: {fontSize: 10}, titleTextStyle: {fontSize: 15}},
+    vAxis: {title: "CPI"},
+    title: "#{(i+1)*60-59} to #{(i+1)*60}",
+    } %>
   <% end %>
 <% end %>
