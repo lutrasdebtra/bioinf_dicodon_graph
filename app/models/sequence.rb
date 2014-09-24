@@ -48,9 +48,9 @@ class Sequence < ActiveRecord::Base
 		dicodons = dicodons.each_slice(60).to_a
 		values = values.each_slice(60).to_a
 		dicodons.each_with_index do |d, i| 
-			graph = [['seq_slice', 'CPI', 'DiCodon Freq', { role: 'style' }]]
+			graph = [['seq_slice', 'CPI', { role: 'style' }]]
 			d.each_with_index do |di, j|
-				graph << [di + "_#{j+1}", values[i][j].to_f, 1, colours[i][j]]
+				graph << [di + "_#{j+1}", values[i][j].to_f, colours[i][j]]
 			end
 			graphs << graph
 		end

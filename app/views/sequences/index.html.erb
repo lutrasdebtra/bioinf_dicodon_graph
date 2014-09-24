@@ -25,10 +25,10 @@
 		    				1: {type: "line", targetAxisIndex:1},
 		    				2: {targetAxisIndex:0}
 		    			},
-		    			height: 300
+		    			height: 300,
 		  			};
 
-	    			var chart = new google.visualization.ComboChart(document.getElementById('chart_div_' + String(i)));
+	    			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_' + String(i)));
 	  				chart.draw(data, options);
 				}
 			}
