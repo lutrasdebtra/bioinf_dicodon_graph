@@ -39,17 +39,18 @@ class Sequence < ActiveRecord::Base
 				values << '#5cb85c'
 			end
 		end
-		return values
+		return values.each_slice(60).to_a
 	end
 
 	def self.get_graphs(dicodons, values)
 		graphs = []
+		colours = get_colours(dicodons)
 		dicodons = dicodons.each_slice(60).to_a
 		values = values.each_slice(60).to_a
 		dicodons.each_with_index do |d, i| 
-			graph = []
+			graph = [['seq_slice', 'CPI', 'DiCodon Freq', { role: 'style' }]]
 			d.each_with_index do |di, j|
-				graph << [di + "_#{j+1}", values[i][j].to_f]
+				graph << [di + "_#{j+1}", values[i][j].to_f, 1, colours[i][j]]
 			end
 			graphs << graph
 		end

@@ -1,3 +1,47 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+	<% if @graphs.any? %>
+	    <script type="text/javascript">
+	    	var graphs = JSON.parse('<%= raw @graphs.to_json %>'); 
+	    	var sequence_slice = JSON.parse('<%= raw @sequence_slice.to_json %>');
+	    	var colours = JSON.parse('<%= raw @colours.to_json %>');
+	    	google.load("visualization", "1", {packages:["corechart"]});
+			google.setOnLoadCallback(drawVisualization);
+			function drawVisualization() {
+	  			var arrayLength = graphs.length;
+				for (var i = 0; i < arrayLength; i++) {
+					var data = google.visualization.arrayToDataTable(graphs[i]);
+	    			var options = {
+		    			title: String((i+1)*60-59) + ' to ' + String((i+1)*60),
+		    			vAxes: { 
+		    				0: {format: '#.#', maxValue: 1, minValue: 0, title: "CPI"}, 
+		    				1: {format: '#', maxValue: 5, minValue: 0, title: "Dicodon Freq"}
+		    			},
+		    			hAxis: {title: sequence_slice[i], showTextEvery:1,textStyle: {fontSize: 10}, slantedText: true},
+		    			seriesType: "bars",
+		    			series: {
+		    				1: {type: "line", targetAxisIndex:1},
+		    				2: {targetAxisIndex:0}
+		    			},
+		    			height: 300
+		  			};
+
+	    			var chart = new google.visualization.ComboChart(document.getElementById('chart_div_' + String(i)));
+	  				chart.draw(data, options);
+				}
+			}
+	    </script>
+	  </head>
+	  <body>
+	  	<% @graphs.each_with_index do |g, i| %>
+	    	<div id="chart_div_<%= i%>"></div>
+	    <% end %>
+	  </body>
+  <% end %>
+</html>
+<!-- Old Code
 <% if @graphs.any? %>
   <% @graphs.each_with_index do |g, i| %>
     <%= column_chart  g ,min: 0.0, max: 1.1,
@@ -7,3 +51,4 @@
     } %>
   <% end %>
 <% end %>
+-->

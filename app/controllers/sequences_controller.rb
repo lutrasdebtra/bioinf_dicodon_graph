@@ -13,7 +13,7 @@ class SequencesController < ApplicationController
           params[:search] = params[:search].gsub(/\W/, "").downcase
           @dicodons = Sequence.dicodons(params[:search])
           @values = Sequence.get_values(@dicodons)
-          @colours = Sequence.get_colours(@dicodons).each_slice(60).to_a
+          @colours = Sequence.get_colours(@dicodons)
           @graphs = Sequence.get_graphs(@dicodons, @values)
           @sequence_slice = params[:search].chars.to_a.each_slice(180).to_a.map(&:join)
       else
