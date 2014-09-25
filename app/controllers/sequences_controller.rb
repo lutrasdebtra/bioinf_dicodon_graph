@@ -11,13 +11,16 @@ class SequencesController < ApplicationController
     if params[:search]
       if (params[:search] =~ /\A[ATCGatcg\W]+\z/ ? true : false)
           params[:search] = params[:search].gsub(/\W/, "").downcase
+          @di_letter = params[:di_letter]
+          @di_win = params[:di_win]
+          print @di_win
           @dicodons = Sequence.dicodons(params[:search])
           @values = Sequence.get_values(@dicodons)
           @colours = Sequence.get_colours(@dicodons)
           @graphs = Sequence.get_graphs(@dicodons, @values)
           @sequence_slice = params[:search].chars.to_a.each_slice(180).to_a.map(&:join)
       else
-        flash.now[:alert] = 'Incorrect search parameters - Seek help'
+        flash.now[:alert] = "Incorrect search parameters - Seek help #{params[:di_win]}"
       end
     end
   end
