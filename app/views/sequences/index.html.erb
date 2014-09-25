@@ -6,7 +6,8 @@
 	    <script type="text/javascript">
 	    	var graphs = JSON.parse('<%= raw @graphs.to_json %>'); 
 	    	var sequence_slice = JSON.parse('<%= raw @sequence_slice.to_json %>');
-	    	var colours = JSON.parse('<%= raw @colours.to_json %>');
+	    	var freq_graphs = JSON.parse('<%= raw @di_freq.to_json %>');
+	    	var freq_max = JSON.parse('<%= raw @di_win.to_json %>');
 	    	google.load("visualization", "1", {packages:["corechart"]});
 			google.setOnLoadCallback(drawVisualization);
 			function drawVisualization() {
@@ -15,9 +16,7 @@
 					var data = google.visualization.arrayToDataTable(graphs[i]);
 	    			var options = {
 		    			title: String((i+1)*60-59) + ' to ' + String((i+1)*60),
-		    			vAxes: { 
-		    				0: {format: '#.#', maxValue: 1, minValue: 0, title: "CPI"}
-		    			},
+		    			vAxis: {format: '#.#', maxValue: 1, minValue: 0, title: "CPI"},
 		    			hAxis: {title: sequence_slice[i], showTextEvery:1,textStyle: {fontSize: 10}, slantedText: true, titleTextStyle: {fontSize: 17}},
 		    			height: 300,
 		    			legend: 'none', 
@@ -25,13 +24,28 @@
 
 	    			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_' + String(i)));
 	  				chart.draw(data, options);
+
+	  				var freq_data = google.visualization.arrayToDataTable(freq_graphs[i]);
+	    			var freq_options = {
+		    			title: String((i+1)*60-59) + ' to ' + String((i+1)*60),
+		    			vAxis: {format: '#', minValue: 0, maxValue: freq_max ,title: "Freq"},
+		    			hAxis: {title: sequence_slice[i], showTextEvery:1,textStyle: {fontSize: 10}, slantedText: true, titleTextStyle: {fontSize: 17}},
+		    			height: 300,
+		    			legend: 'none', 
+		  			};
+
+	    			var freq_chart = new google.visualization.LineChart(document.getElementById('chart_div_freq_' + String(i)));
+	  				freq_chart.draw(freq_data, freq_options);
+
+
 				}
 			}
 	    </script>
 	  </head>
 	  <body>
 	  	<% @graphs.each_with_index do |g, i| %>
-	    	<div id="chart_div_<%= i%>"></div>
+	    	<div id="chart_div_<%= i %>"></div>
+	    	<div id="chart_div_freq_<%= i %>"></div>
 	    <% end %>
 	  </body>
   <% end %>
