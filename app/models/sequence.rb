@@ -56,4 +56,36 @@ class Sequence < ActiveRecord::Base
 		end
 		return graphs
 	end
+
+	def self.get_di_freq(codons, letter, window)
+		graphs = []
+		dicodons = []
+		counts = []
+		codons.split("").each_with_index do |s, i|
+			j = i + window - 1
+			dicodons << codons[i..j]
+		end
+
+		dicodons.each do |d|
+			counter = 0
+			d.split("").each do |n|
+				if (n == letter)
+					counter += 1
+				end
+			end
+			counts << counter
+		end
+
+		dicodons = dicodons.each_slice(60).to_a
+		counts = counts.each_slice(60).to_a
+		dicodons.each_with_index do |d, i| 
+			graph = [['seq_slice', 'Freq']]
+			d.each_with_index do |di, j|
+				graph << [di + "_#{j+1}", counts[i][j]]
+			end
+			graphs << graph
+		end
+
+		return graphs
+	end
 end

@@ -8,19 +8,18 @@ class SequencesController < ApplicationController
     @values = []
     @graphs = []
     @sequence_slice = []
-    if params[:search]
-      if (params[:search] =~ /\A[ATCGatcg\W]+\z/ ? true : false)
+    if params[:search] 
+      if ((params[:search] =~ /\A[ATCGatcg\W]+\z/ ? true : false) && params[:search].length > 5)
           params[:search] = params[:search].gsub(/\W/, "").downcase
-          @di_letter = params[:di_letter]
-          @di_win = params[:di_win]
-          print @di_win
+          @di_letter = params[:di_letter].downcase
+          @di_win = params[:di_win].to_i
           @dicodons = Sequence.dicodons(params[:search])
           @values = Sequence.get_values(@dicodons)
-          @colours = Sequence.get_colours(@dicodons)
           @graphs = Sequence.get_graphs(@dicodons, @values)
           @sequence_slice = params[:search].chars.to_a.each_slice(180).to_a.map(&:join)
+          @di_freq = Sequence.get_di_freq(params[:search], @di_letter, @di_win)
       else
-        flash.now[:alert] = "Incorrect search parameters - Seek help #{params[:di_win]}"
+        flash.now[:alert] = "Incorrect search parameters - Seek help"
       end
     end
   end
