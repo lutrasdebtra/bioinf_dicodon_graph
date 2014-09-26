@@ -76,8 +76,8 @@ class Sequence < ActiveRecord::Base
 			counts << counter
 		end
 
-		dicodons = dicodons.each_slice(60).to_a
-		counts = counts.each_slice(60).to_a
+		dicodons = dicodons.each_slice(180).to_a
+		counts = counts.each_slice(180).to_a
 		dicodons.each_with_index do |d, i| 
 			graph = [['seq_slice', 'Freq']]
 			d.each_with_index do |di, j|
