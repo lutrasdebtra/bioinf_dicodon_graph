@@ -26,9 +26,12 @@
 	  				chart.draw(data, options);
 
 	  				var freq_data = google.visualization.arrayToDataTable(freq_graphs[i]);
+
+	  				var freq_ticks = Array.apply(null, Array(freq_max + 1)).map(function (_, i) {return i;});
+
 	    			var freq_options = {
 		    			title: String((i+1)*60-59) + ' to ' + String((i+1)*60),
-		    			vAxis: {format: '#', minValue: 0, maxValue: freq_max ,title: "Freq"},
+		    			vAxis: {ticks: freq_ticks  ,title: "Freq"},
 		    			hAxis: {title: sequence_slice[i], showTextEvery:1,textStyle: {fontSize: 10}, slantedText: true, titleTextStyle: {fontSize: 17}},
 		    			height: 300,
 		    			legend: 'none', 
