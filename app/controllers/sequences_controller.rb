@@ -16,7 +16,7 @@ class SequencesController < ApplicationController
           @dicodons = Sequence.dicodons(params[:search])
           @values = Sequence.get_values(@dicodons)
           @graphs = Sequence.get_graphs(@dicodons, @values)
-          @sequence_slice = params[:search].chars.to_a.each_slice(180).to_a.map(&:join)
+          @sequence_slice = Sequence.formatted_haxis(params[:search])
           @di_freq = Sequence.get_di_freq(params[:search], @di_letter, @di_win)
       else
         flash.now[:alert] = "Incorrect search parameters - Seek help"

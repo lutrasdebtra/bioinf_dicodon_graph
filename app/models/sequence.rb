@@ -52,6 +52,12 @@ class Sequence < ActiveRecord::Base
 			d.each_with_index do |di, j|
 				graph << [di + "_#{j+1}", values[i][j].to_f, colours[i][j]]
 			end
+			if d.length < 60 
+				excess = 60 - d.length
+				excess.times do |n|
+					graph << ["", 0.to_f, 'white']
+				end 
+			end
 			graphs << graph
 		end
 		return graphs
@@ -83,9 +89,28 @@ class Sequence < ActiveRecord::Base
 			d.each_with_index do |di, j|
 				graph << [di + "_#{j+1}", counts[i][j]]
 			end
+			if d.length < 180 
+				excess = 180 - d.length
+				excess.times do |n|
+					graph << ["", 0]
+				end 
+			end
 			graphs << graph
 		end
 
 		return graphs
+	end
+
+	def self.formatted_haxis(search)
+		search_array = search.chars.to_a.each_slice(180).to_a.map(&:join)
+		search_array_last = search_array[-1]
+		puts search_array_last
+		
+		excess = 180 - search_array_last.length
+		excess.times do |n|
+			search_array_last << "_"
+		end 
+		search_array[-1] = search_array_last
+		return search_array
 	end
 end
