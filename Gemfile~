@@ -43,6 +43,6 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-gem 'fastercsv', '1.5.4'
+gem 'fastercsv'
 gem 'bootstrap-sass'
 gem "chartkick"

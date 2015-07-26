@@ -1,0 +1,9 @@
+# DiCodon Graph
+
+Uses the Google graph API to map both the dicodon frequencies, and individual codon frequences throughout a user inputted sequence or fasta file. 
+
+![Example](https://raw.github.com/lutrasdebtra/bioinf_dicodon_graph/master/Splash.png)
+
+The dicodon frequencies are specific to a single organism. Currently the site uses an example bacteria, but the while in `/lib/data/LZ1561_CPI_DetectableOrfs_2.txt` is easy enough to copy and alter.
+
+
